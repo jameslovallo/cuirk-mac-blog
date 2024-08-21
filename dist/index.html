@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+		<html lang="en">
+			<head>
+				<!-- component styles -->
+				
+	<style>
+		:root {
+			--c-primary: #1e90ff;
+			--c-primary-1: #1e90ff11;
+			--c-primary-2: #1e90ff22;
+			--c-primary-3: #1e90ff33;
+			--c-primary-hover: var(--c-primary-2);
+			--c-primary-active: var(--c-primary-3);
+			--c-primary-color: white;
+			--c-border: 1px solid #bbb;
+			--c-surface: white;
+			--c-surface-color: black;
+			--c-surface-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
+		}
+		
+		:root,
+		body {
+			height: 100%;
+		}
+		
+		body {
+			margin: 0;
+		}
+		
+		* {
+			box-sizing: border-box;
+		}
+		
+		img,
+		video {
+			display: block;
+			max-width: 100%;
+		}
+		
+		svg {
+			display: block;
+		}
+
+		.surface {
+			background: var(--c-surface);
+			border: var(--c-border);
+			color: var(--c-surface-color);
+		}
+		
+		.button {
+  align-items: center;
+  background: var(--c-primary);
+  border: 1px solid var(--c-primary);
+  border-radius: 0;
+  color: var(--c-primary-color);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1rem;
+  gap: 0.5em;
+  height: 2em;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 0.75rem;
+  position: relative;
+  text-decoration: none;
+  vertical-align: middle;
+}
+.button > .hover-cover {
+  background: currentcolor;
+  bottom: 0;
+  content: "";
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.button:hover > .hover-cover {
+  opacity: 0.1;
+}
+.button:active > .hover-cover {
+  opacity: 0.2;
+}
+.button.outlined {
+  background: transparent;
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+.button.subtle {
+  background: var(--c-primary-2);
+  border-color: var(--c-primary-3);
+  color: var(--c-primary);
+}
+.button.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--c-primary);
+}
+.button.ghost:hover {
+  border-color: var(--c-primary-3);
+}
+.button.ghost:hover .hover-cover {
+  background: var(--c-primary);
+}
+.button.sm {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  padding: 0 0.5rem;
+}
+.button.lg {
+  font-size: 1.25rem;
+}
+.button.rounded {
+  border-radius: 0.25rem;
+}
+.button.pill {
+  border-radius: 9999px;
+}
+.button.square {
+  aspect-ratio: 1;
+}
+.button.circle {
+  aspect-ratio: 1;
+  border-radius: 9999px;
+}
+.button .mdi {
+  min-width: 1.125em;
+  width: 1.125em;
+}
+
+.card > img {
+  width: 100%;
+}
+.card > .body {
+  padding: 1rem;
+}
+.card > .body > * {
+  margin: 0;
+}
+.card > .body > h3 {
+  margin-bottom: 1em;
+}
+.card > .body > h4 {
+  font-weight: normal;
+  margin-bottom: 0.5em;
+}
+.card > .body > p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+.card > .actions {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+.card > .actions:has(.ghost:first-child) {
+  padding: 0.25rem;
+}
+.card > .actions:has(.ghost:first-child):has(.sm) {
+  padding: 0.5rem 0.5rem;
+}
+
+form {
+  display: grid;
+  gap: 1.5rem;
+}
+form label {
+  color: var(--soft-blue);
+  display: grid;
+  font-size: 0.8rem;
+  gap: 0.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+form label.hidden {
+  display: none;
+}
+form label sup {
+  color: red;
+}
+form label sup:before {
+  content: "*";
+}
+form label:has(:valid) sup {
+  display: none;
+}
+form label input,
+form label textarea {
+  border: none;
+  border-bottom: var(--c-border);
+  border-bottom-width: 2px;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+form label input:focus,
+form label textarea:focus {
+  border-bottom-color: var(--c-primary);
+  outline: none;
+}
+form label textarea {
+  height: 8rem;
+  resize: none;
+}
+
+footer {
+  background: var(--footer, black);
+  color: var(--footer-color, white);
+  display: grid;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: sticky;
+  text-align: center;
+  top: 100vh;
+}
+footer > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+footer > div > a {
+  text-decoration: none;
+}
+footer > div > a:hover {
+  text-decoration: underline;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-size), 1fr));
+}
+
+.mdi {
+  display: block;
+}
+
+.link-list {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.link-list a {
+  align-items: center;
+  border-radius: 5rem;
+  color: inherit;
+  display: flex;
+  gap: 1rem;
+  padding-right: 1rem;
+  position: relative;
+  text-decoration: none;
+}
+.link-list a:hover {
+  background: var(--c-primary-hover);
+}
+.link-list a:active {
+  background: var(--c-primary-active);
+}
+.link-list a > .icon {
+  background: var(--c-primary);
+  color: var(--c-primary-color);
+  padding: 0.75rem;
+  border-radius: 100%;
+}
+.link-list a > .text {
+  display: grid;
+  gap: 0.33rem;
+  line-height: 1;
+}
+.link-list a > .text small {
+  opacity: 0.66;
+}
+
+.modal dialog[open] {
+  align-items: center;
+  border: none;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+  left: 0;
+  margin: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  min-width: 100%;
+  z-index: 99999;
+}
+.modal dialog[open] > .content {
+  display: grid;
+  gap: 1rem;
+  width: min(80vw, 70ch);
+}
+.modal dialog[open] > .content > .scroll {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+nav {
+  background: var(--nav, black);
+  color: var(--nav-color, white);
+  display: grid;
+  font-size: 15px;
+  gap: 1rem;
+  grid-template-columns: repeat(3, auto);
+  height: 3rem;
+  padding: 0 0.5rem;
+}
+nav > div {
+  align-items: center;
+  display: flex;
+}
+nav > div:not(:first-child):not(:last-child) {
+  justify-content: center;
+}
+nav > div:last-child {
+  justify-content: end;
+}
+@media (min-width: 768px) {
+  nav > div .modal {
+    display: none;
+  }
+}
+nav > div .modal .trigger .button {
+  --c-primary: var(--nav-color, white);
+}
+nav > div .modal a {
+  font-size: 1.5rem;
+  padding: 0.5rem 0;
+}
+nav > div a {
+  color: inherit;
+  text-decoration: none;
+}
+nav > div > a {
+  padding: 1rem 0.5rem;
+}
+nav > div > a:hover {
+  background: var(--c-primary-hover);
+}
+nav > div > a:active {
+  background: var(--c-primary-active);
+}
+@media (max-width: 767px) {
+  nav > div > a:not(.show-on-mobile) {
+    display: none;
+  }
+}
+
+.post-list {
+  display: grid;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.post-list a {
+  border-radius: 0.5rem;
+  display: grid;
+  padding: 0.5rem;
+  text-decoration: none;
+}
+.post-list a small {
+  color: var(--soft-blue);
+}
+.post-list a:hover {
+  background: rgba(255, 255, 255, 0.0666666667);
+}
+.post-list a:hover b {
+  text-decoration: underline;
+}
+
+.press-list {
+  list-style: none;
+  margin: -0.5rem;
+  padding: 0;
+}
+.press-list li {
+  margin: 0;
+  padding: 0;
+}
+.press-list a {
+  border-radius: 0.5rem;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  text-decoration: none;
+}
+.press-list a small {
+  color: var(--soft-blue);
+}
+.press-list a:hover {
+  background: rgba(255, 255, 255, 0.0666666667);
+}
+.press-list a:hover b {
+  text-decoration: underline;
+}
+
+.youtube button,
+.youtube iframe {
+  aspect-ratio: 16/9;
+  border: 0;
+  display: block;
+  width: 100%;
+}
+.youtube button {
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+.youtube button .icon {
+  display: block;
+  width: 68px;
+}
+.youtube button .icon-bg {
+  fill: rgba(33, 33, 33, 0.8);
+}
+.youtube button .icon-fg {
+  fill: #fff;
+}
+.youtube button:hover .icon-bg {
+  fill: red;
+}
+	</style>
+
+				<!-- page meta -->
+				<title>Resurget: Life in Detroit</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="Politics and Development in Detroit and Michigan." />
+		<meta property="og:title" content="Resurget: Life in Detroit" />
+		<meta property="og:description" content="Politics and Development in Detroit and Michigan." />
+		<meta property="og:site_name" content="Resurget: Life in Detroit" />
+		<meta property="og:url" content="https://bernadetteatuahene.com" />
+		<meta property="og:image" content="/src/images/global/meta.jpeg" />
+		<link rel="icon" href="/src/images/global/favicon.ico">
+<link rel="stylesheet" href="/src/style.css">
+			</head>
+			<body>
+				<!-- page content -->
+				<nav>
+			<div>
+				<div class="modal">
+		<div class="trigger">
+			<button class="button ghost circle lg" >
+					<span class="hover-cover"></span>
+					<svg class="mdi" viewBox="0 0 24 24" width="24">
+		<path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" fill="currentColor" />
+	</svg>
+				</button>
+		</div>
+		<dialog>
+			<div class="content">
+				<div class="scroll"><div style="display: grid; margin-bottom: 1rem;">
+							<a
+			href="/"
+			target="_self"
+			class="show-on-mobile"
+		>
+			Mac Farr
+		</a><a
+			href="/about"
+			target="_self"
+			
+		>
+			About
+		</a><a
+			href="/press"
+			target="_self"
+			
+		>
+			Press
+		</a><a
+			href="/contact"
+			target="_self"
+			class="show-on-mobile"
+		>
+			Contact
+		</a>
+						</div></div>
+				<form method="dialog">
+					<button class="button filled pill md" >
+					<span class="hover-cover"></span>
+					Close
+				</button>
+				</form>
+			</div>
+		</dialog>
+	</div>
+				<a
+			href="/"
+			target="_self"
+			class="show-on-mobile"
+		>
+			Mac Farr
+		</a>
+			</div>
+			<div></div>
+			<div><a
+			href="/about"
+			target="_self"
+			
+		>
+			About
+		</a><a
+			href="/press"
+			target="_self"
+			
+		>
+			Press
+		</a><a
+			href="/contact"
+			target="_self"
+			class="show-on-mobile"
+		>
+			Contact
+		</a></div>
+		</nav>
+				<div class="split">
+					<main><p><span class="small-cap">Latest Post</span></p>
+<h1 id="taking-out-the-trash">Taking Out the Trash</h1>
+<p>Managing the Contract with GFL</p>
+<p>June 5, 2022</p>
+<p><img src="https://v5.airtableusercontent.com/v3/u/32/32/1724277600000/CA_imBvDBiJdovi8SIgolQ/vSGHz16Dzpwtb6SlXrLx1qUt5i86keZnlVnYmR10AicuKvqdmoEh4AUuVoxPriFwDDzkMfMwsPn9KLYKMvd0m_E2j2n-enYhMSvTZwNvfDYEoOG9TbWhaOIWcNWky_RvYQRBLUZZLeJ5y6fGQQOwLw/pscxoXbW0RwwE2VIxQK0xoDRPQlFrBEHyfeS2gGEwd8" alt="Taking Out the Trash"></p>
+<p>Over the course of the past couple of years, I&#39;ve noticed a breakdown in the quality of service in garbage pickups on the east side in Detroit. Say what you may about Rizzo, <a href="https://www.clickondetroit.com/news/2018/04/23/chuck-rizzo-jr-sentenced-in-macomb-county-corruption-scandal/">manged by corrupt Chuck Rizzo</a>, but at least they were good at taking the garbage out on time and without issue.</p>
+<p>Since <a href="https://gflenv.com/gfl-announces-first-us-acquisition/">Rizzo was purchased by GFL in 2016</a>, their performance has gone downhill. I first started noticing issues in 2019. And they&#39;ve only gotten worse in the past few years. Their issues are in a few different areas: missing pickups (either a whole block, or a couple of cans, or recycling / yard waste / bulk), managing their fleet as well as picking up items that they&#39;re not supposed to, which just creates more dumping.</p>
+<p>Let me be clear in what I am about to say. At first, I kept a lot of this to myself, and just sent emails to the City and my district managers, hoping for a better outcome if I flagged the issue. I thought it must just have been my own experience or something that was specific to my block in my neighborhood. But the more I dug and the more time that passed, the more that I find out what is happening with GFL is an issue, and a severe one at that, citywide.</p>
+<p>GLF routinely misses pickups. Be it an entire block of garbage cans, some other special pickups such as recycling, yard waste or bulk pickup, it is frequent. I went back through old emails, and found that in a one year span in 2019, and 2020, on my block, GFL missed either yard waste or bulk pickups <strong>seven</strong> times, which is nearly 14%. That&#39;s just what I bothered to email and photograph. Since then, it&#39;s kept at a fairly constant level.</p>
+<p>GFL also doesn&#39;t adequately maintain their garbage trucks. This spring and summer, with the exception of two weeks ago, their rigs have leaked hydraulic fluid onto the streets. I&#39;ve heard a lot of excuses about why this is happening, including faulty garbage dumpsters, water leaking out of the back of trucks, and other reasons, but the issue is that GFL doesn&#39;t fix their trucks. GFL officials recently told me via email that they don&#39;t send their worst, leakiest trucks to Detroit, so I decided to check out what other cities were experiencing with regards to this issues.</p>
+<p>I placed calls to the municipalities of Grosse Pointe Park, Rochester Hills, Canton, Dearborn and Lake Orion all stated that hydraulic fluid onto their roadways was something that either never happened, happened maybe &#39;a couple of times&#39; a month, or maybe ever six months in their entire municipalities. Local officials in Lake Orion Township stated that they specifically negotiate their contracts to make GFL use trucks that are less than five years so that things like this don&#39;t happen. One official in Rochester Hills stated &quot;<strong>GFL uses certain trucks for certain cities.  So the trucks that we get in Rochester aren’t the ones that you are going to be getting in Detroit</strong>.&quot; This indicates that the company knows that they have trucks that have issues or are super old, and route them all to Detroit. Additionally, I also took the liberty of putting the question to residents on Nextdoor. Folks in Mohican Regent, Jefferson Chalmers, Jefferson Mack, Forest Park, Chandler Park, East Village, Indian Village, Pingree Park all have this problem. You <a href="https://nextdoor.com/p/B8PR6KzjB8bt/c/772769019?is=notification_center">can see the conversation here</a>. Basically, this is an issue wherever GFL operates in Detroit.</p>
+<p>We also have had issues with GLF picking up items that are on vacant land, and, in addition, frequently going beyond the scope of their contract. While I understand that this is probably well intentioned, it has a few different effects. The first is that folks put stuff out that shoudn&#39;t be picked up for GFL. I&#39;ll give an example. Two weeks ago, we had one resident and a developer in our neighborhood put out massive amounts of cut brush at a couple of locations. When asked, both said that they thought it was okay, because GFL would pick it up. By picking stuff up that GFL shouldn&#39;t, it helps incentivize illegal dumping, in that folks know that GFL will pick anything up, they can just dump stuff on the berm in front of vacant lots, or the cut brush from an entire tree taken down, or the contents of a whole house cleanout, and GFL will pick it up.</p>
+<p>As for fines, the contract between GFL and the City calls for the imposition of fines for nonperformance. To date, according to City spokesman John Roach, no fines have been collected by the City due to missed pickups or leaky trucks. I don&#39;t really understand why the City wouldn&#39;t use the tools in its box to hold GLF accountable and enforce the contract, but they aren&#39;t. If you aren&#39;t using those tools for accountability, why would the vendor works towards a better outcome? The Solid Waste Division of the Department of Public Works, overseen by Doug Collins and supervised by DPW Director Ron Brundidge, should begin issuing fines week in and out to GFL for constantly failing to do their job according to the contract that they agreed to.</p>
+<p>As for statistics, at one point, I was going to ask the City to see the data on missed pickups that could be reported via the City app, <a href="https://detroitmi.gov/ImproveDetroit">Improve Detroit</a>. However, as it recently came to my attention, reporting that issue is no longer an option. Instead, one of the notes on the &#39;Curbside Solid Waste Issue&#39; section on Improve Detroit states: &quot;If you wish to report an issue such as missed trashed pickup or similar, you must contact your waste service directly. Advanced Disposal can be contacted at (844) 233-8764 and GFL Environmental can be contacted at (844) 464-3587. More information can be found here <a href="http://www.detroitmi.gov/How-Do-I/Find/Refuse-Collection">http://www.detroitmi.gov/How-Do-I/Find/Refuse-Collection</a>.&quot; To me, this is very odd to not have an option on your City app. It seems like if you want to be able to enforce the contract to be able to collect fines, that this is the perfect mechanism to report it, and subsequently enforce. It used to be that you could report this via Improve Detroit, but now you can&#39;t. I sincerely wonder what changed, and I hope that the City restores this option so that residents can report missed pickups, and DPW can fine accordingly.</p>
+<p>Residents have kept bringing these concerns to the City. City Council President Mary Sheffield&#39;s office has been supportive, and so has Ombudsman Bruce Simpson (with a particular debt of gratitude owed to Linda Wesley). But the results are remaining roughly the same. This contract is administered by the Department of Public Works. Unfortunately, we keep getting the same results. GFL has contracted with the City for the total amount of $54,836,344. The contract goes through May 31st, 2024. It is unlikely that the City would be able to fire GFL and get a better outcome at this point. But this is the sort of operatin that I would urge the City to look at doing itself or to find another vendor for when the contract expires.</p>
+<style>
+    .small-cap {
+        color: var(--soft-blue);
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+</style></main>
+					<aside>
+						<div class="sticky">
+							<h2>Posts</h2>
+							<ul class="post-list">
+		<li>
+			<a href="/posts/taking-out-the-trash">
+				<b>Taking Out the Trash</b>
+				<small>Managing the Contract with GFL</small>
+			</a>
+		</li><li>
+			<a href="/posts/safe-streets-for-safe-neighborhoods">
+				<b>Safe Streets for Safe Neighborhoods</b>
+				<small>Learn how Detroit can improve safety on our streets without militarizing law enforcement.</small>
+			</a>
+		</li><li>
+			<a href="/posts/introduction">
+				<b>Introduction</b>
+				<small>Who I am and what I'm trying to do.</small>
+			</a>
+		</li>
+	</ul>
+						</div>
+					</aside>
+				</div>
+				<footer>
+		<div>
+			<a href="/">Mac Farr</a><a href="/about">About</a><a href="/press">Press</a><a href="/contact">Contact</a>
+		</div>
+		<small>© 2024 Resurget: Life in Detroit. All Rights Reserved.</small>
+	</footer>
+				<!-- component scripts -->
+				
+
+
+
+<script>	const form = document.querySelector('.contact-form')
+
+	if (form) {
+		const formToken =
+			'pat1jLkw1xVRnTIll.1d2c88730206409ac8128f9fdce640449e8f5134b86740590755643790ca2c5c'
+		form.addEventListener('submit', (e) => {
+			e.preventDefault()
+			const formData = new FormData(form)
+			const fields = Object.fromEntries(formData.entries())
+			delete fields.Occupation
+			fetch('https://api.airtable.com/v0/appWwIseIzt9aVk0t/Contact', {
+				headers: {
+					Authorization: `Bearer ${formToken}`,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+				body: JSON.stringify({ fields }),
+			}).then((res) => {
+				if (res.ok) window.location = '/thank-you'
+			})
+		})
+	}</script>
+
+
+
+
+<script>	const modals = document.querySelectorAll('.modal')
+	modals.forEach((modal) => {
+		const trigger = modal.querySelector('.trigger > *')
+		const dialog = modal.querySelector('dialog')
+		trigger.addEventListener('click', () => dialog.showModal())
+	})</script>
+
+
+
+
+<script>	document.querySelectorAll('.youtube button').forEach((button) => {
+		button.addEventListener('click', () => {
+			const iframe = document.createElement('iframe')
+			iframe.src = `https://www.youtube.com/embed/${button.dataset.id}?autoplay=1`
+			iframe.title = 'YouTube video player'
+			iframe.allow = [
+				'accelerometer',
+				'autoplay',
+				'clipboard-write',
+				'encrypted-media',
+				'gyroscope',
+				'picture-in-picture',
+			].join('; ')
+			iframe.allowFullscreen = true
+			button.replaceWith(iframe)
+		})
+	})</script>
+			</body>
+		</html>
