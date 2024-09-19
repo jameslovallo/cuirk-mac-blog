@@ -1,10 +1,11 @@
 {
 	"type": "module",
 	"dependencies": {
-		"cuirk": "^0.0.71"
+		"cuirk": "^0.0.89",
+		"download": "^8.0.0"
 	},
 	"scripts": {
-		"build": "cuirk build && node ./src/build.js",
+		"build": "cuirk build && node ./src/blog.js",
 		"dev": "cuirk dev"
 	}
 }

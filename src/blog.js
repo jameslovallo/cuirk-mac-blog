@@ -2,13 +2,16 @@ import fs from 'fs'
 import { parse } from 'marked'
 import { getRecords } from './data/airtable.js'
 import layout from './layouts/default.js'
+import download from 'download'
 
 const { records } = await getRecords
 
 records.forEach(
-	({ fields: { Name, Body, Date: date, Description, Thumbnail } }) => {
-		const outDir = `./dist/posts/${Name.toLowerCase().replaceAll(' ', '-')}`
+	async ({ fields: { Name, Body, Date: date, Description, Thumbnail } }) => {
+		fs.mkdirSync('dist/posts/media/', { recursive: true })
+		const outDir = `dist/posts/${Name.toLowerCase().replaceAll(' ', '-')}`
 		fs.mkdirSync(`${outDir}`, { recursive: true })
+		fs.writeFileSync(`dist/posts/media/${Name.replaceAll(' ', '-')}.jpg`, await download(Thumbnail[0].thumbnails.large.url));
 		const body = [
 			`# ${Name}`,
 			Description,
@@ -17,7 +20,7 @@ records.forEach(
 				month: 'long',
 				day: 'numeric',
 			}),
-			Thumbnail[0] && `![${Name}](${Thumbnail[0].thumbnails.large.url})`,
+			Thumbnail[0] && `![${Name}](/posts/media/${Name.replaceAll(' ', '-')}.jpg)`,
 			Body,
 		].join('\n\n')
 		fs.writeFileSync(
