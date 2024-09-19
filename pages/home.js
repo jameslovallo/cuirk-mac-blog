@@ -22,7 +22,7 @@ ${new Date(date).toLocaleDateString("en-US", {
   day: "numeric",
 })}
 
-${Thumbnail[0] && `![${Name}](${Thumbnail[0].thumbnails.large.url})`}
+${Thumbnail[0] && `![${Name}](/posts/media/${Name.replaceAll(" ", "-")}.jpg)`}
 
 ${Body.replace("\n", "\n\n")}
 
