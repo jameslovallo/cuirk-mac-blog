@@ -1,7 +1,12 @@
+@font-face {
+	font-family: "bodoni";
+	src: url(/src/fonts/bodoni.woff2) format("woff2");
+}
+
 :root {
 	background: rgb(20 83 45);
 	color: white;
-	font-family: sans-serif;
+	font-family: bodoni, sans-serif;
 	--c-primary: #0ea5e9;
 	--soft-blue: #bae6fd;
 	--footer: #082f49;
